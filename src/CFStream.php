@@ -231,7 +231,6 @@ class CFStream
         if (200 != $response->getStatusCode()) {
             throw new OperationFailedException();
         }
-
     }
 
 }
