@@ -96,9 +96,9 @@ class CFStream
         }
 
         if (!$this->zone){
-            $url = "https://api.cloudflare.com/client/v4/account/{$this->account}/media"
+            $url = "https://api.cloudflare.com/client/v4/account/{$this->account}/media";
         } else {
-            "https://api.cloudflare.com/client/v4/zones/{$this->zone}/media"
+            "https://api.cloudflare.com/client/v4/zones/{$this->zone}/media";
         }
 
         $response = $this->client->post($url, [
