@@ -214,4 +214,24 @@ class CFStream
             throw new OperationFailedException();
         }
     }
+
+
+    public function requireSignedURLs($resourceUrl)
+    {
+        $videoId = @end(explode('/', $resourceUrl));
+
+        $response = $this->client->post($resourceUrl, [
+            'body' => "{\"uid\": \"{$videoId}\", \"requireSignedURLs\": true}",
+            'headers' => [
+                'X-Auth-Key' => $this->key,
+                'X-Auth-Email' => $this->email,
+            ],
+        ]);
+
+        if (200 != $response->getStatusCode()) {
+            throw new OperationFailedException();
+        }
+
+    }
+
 }
