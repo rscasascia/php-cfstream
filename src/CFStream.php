@@ -12,6 +12,7 @@ class CFStream
 {
     private $key;
     private $zone;
+    private $account;
     private $email;
 
     /**
@@ -19,16 +20,18 @@ class CFStream
      *
      * @param string $key
      * @param string $zone
+     * @param string $account
      * @param string $email
      */
-    public function __construct($key, $zone, $email)
+    public function __construct($key, $zone, $account, $email)
     {
-        if (empty($key) || empty($zone) || empty($email)) {
+        if (empty($key) || (empty($zone) || empty($account)) || empty($email)) {
             throw new InvalidCredentialsException();
         }
 
         $this->key = $key;
         $this->zone = $zone;
+        $this->account = $account;
         $this->email = $email;
 
         $this->client = new Client();
@@ -92,7 +95,13 @@ class CFStream
             throw new InvalidFileException();
         }
 
-        $response = $this->client->post("https://api.cloudflare.com/client/v4/zones/{$this->zone}/media", [
+        if (!$this->zone){
+            $url = "https://api.cloudflare.com/client/v4/account/{$this->account}/media"
+        } else {
+            "https://api.cloudflare.com/client/v4/zones/{$this->zone}/media"
+        }
+
+        $response = $this->client->post($url, [
             'headers' => [
                 'X-Auth-Key' => $this->key,
                 'X-Auth-Email' => $this->email,
