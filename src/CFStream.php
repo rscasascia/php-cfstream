@@ -25,7 +25,7 @@ class CFStream
      */
     public function __construct($key, $zone, $account, $email)
     {
-        if (empty($key) || (empty($zone) || empty($account)) || empty($email)) {
+        if (empty($key) || (empty($zone) && empty($account)) || empty($email)) {
             throw new InvalidCredentialsException();
         }
 
